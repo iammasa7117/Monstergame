@@ -1,159 +1,59 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monster Game v20</title>
+  <title>Monster Game v21</title>
   <style>
     body {
       margin: 0;
-      background: linear-gradient(to bottom, #222, #444);
+      background: black;
       overflow: hidden;
     }
-    #game {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
     #status {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
+      font-family: 'Courier New', monospace;
+      background: #111;
       color: white;
-      font-family: 'Courier New', monospace;
-      font-size: 3vw;
-      padding: 5px;
-      box-sizing: border-box;
-    }
-    #bunny, #monster, #treasure, #item, #alert {
+      padding: 10px;
+      border: 2px dotted white;
       position: absolute;
-      transform: translateX(-50%);
-      left: 50%;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
     }
-    #bunny {
-      height: 20vh;
-      bottom: 30%;
-    }
-    #monster, #treasure {
-      width: 25vw;
-      bottom: 30%;
-      display: none;
-    }
-    #item {
-      width: 15vw;
-      bottom: 55%;
-      display: none;
-    }
-    #alert {
-      width: 8vw;
-      bottom: 52%;
-      animation: bounce 1s infinite;
-      cursor: pointer;
-      display: none;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-10px); }
-    }
-    #ui-buttons {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 999;
-    }
-    #ui-buttons button {
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      background-color: #222;
-      color: #fff;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      text-align: center;
-      padding: 5px;
-      box-shadow: 2px 2px #555;
-      cursor: pointer;
+    canvas {
+      display: block;
+      margin: 0 auto;
     }
   </style>
 </head>
 <body>
   <div id="status">
-    名前: Bunny　Lv: <span id="level">1</span>　
-    HP: <span id="hp">100</span>/100　
-    攻撃力: <span id="attack">10</span>　
-    経験値: <span id="exp">0</span>/100
+    名前: Bunny　Lv: 1<br>
+    HP: 100 / 100　攻撃力: 10<br>
+    経験値: 0 / 100
   </div>
-  <div id="game">
-    <img id="bunny" src="./bunny_walk_1.png" />
-    <img id="monster" src="./monster.png" />
-    <img id="treasure" src="./treasure.png" onclick="openTreasure()" />
-    <img id="item" src="./item.png" />
-    <img id="alert" src="./alert.png" onclick="triggerEvent()" />
-  </div>
-  <div id="ui-buttons">
-    <button id="event-button">❗</button>
-    <button id="battle-button">⚔️</button>
-    <button id="item-button">🎒</button>
-  </div>
+  <canvas id="gameCanvas" width="360" height="640"></canvas>
   <script>
-    const alertImg = document.getElementById("alert");
-    const monster = document.getElementById("monster");
-    const treasure = document.getElementById("treasure");
-    const item = document.getElementById("item");
-    const bunny = document.getElementById("bunny");
-    const frames = ["./bunny_walk_1.png", "./bunny_walk_2.png"];
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const bunnyImg = new Image();
+    bunnyImg.src = "bunny_walk_1.png";
+
+    let bunnyX = 150;
+    let bunnyY = 300;
     let frame = 0;
 
-    function triggerEvent() {
-      alertImg.style.display = "none";
-      const isTreasure = Math.random() < 0.5;
-      if (isTreasure) {
-        treasure.style.display = "block";
-        monster.style.display = "none";
-      } else {
-        monster.style.display = "block";
-        treasure.style.display = "none";
-        alert("敵が現れた！");
-        setTimeout(() => {
-          monster.style.display = "none";
-          scheduleNextEvent();
-        }, 3000);
-      }
-    }
-
-    function openTreasure() {
-      treasure.src = "./treasure_open.png";
-      item.style.display = "block";
-      setTimeout(() => {
-        treasure.style.display = "none";
-        item.style.display = "none";
-        treasure.src = "./treasure.png";
-        scheduleNextEvent();
-      }, 3000);
-    }
-
-    function scheduleNextEvent() {
-      setTimeout(() => {
-        alertImg.style.display = "block";
-      }, Math.random() * 5000 + 3000);
-    }
-
-    setInterval(() => {
-      frame = (frame + 1) % 2;
-      bunny.src = frames[frame];
-    }, 300);
-
-    scheduleNextEvent();
-
-    document.getElementById("event-button").onclick = () => triggerEvent();
-    document.getElementById("battle-button").onclick = () => alert("バトル開始！（仮）");
-    document.getElementById("item-button").onclick = () => alert("アイテム確認！（仮）");
+    bunnyImg.onload = () => {
+      setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(bunnyImg, bunnyX, bunnyY);
+        bunnyX += 1;
+        if (bunnyX > canvas.width) bunnyX = -32;
+      }, 100);
+    };
   </script>
 </body>
 </html>
