@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monster Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Game v19</title>
   <style>
     body {
       margin: 0;
-      overflow: hidden;
       background: linear-gradient(to bottom, #222, #444);
+      overflow: hidden;
     }
     #game {
       position: relative;
@@ -24,16 +24,10 @@
       height: 20vh;
       bottom: 30%;
     }
-    #monster {
+    #monster, #treasure {
       width: 25vw;
       bottom: 30%;
       display: none;
-    }
-    #treasure {
-      width: 25vw;
-      bottom: 30%;
-      display: none;
-      cursor: pointer;
     }
     #item {
       width: 15vw;
@@ -51,6 +45,29 @@
       0%, 100% { transform: translateX(-50%) translateY(0); }
       50% { transform: translateX(-50%) translateY(-10px); }
     }
+    #ui-buttons {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 999;
+    }
+    #ui-buttons button {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      background-color: #222;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      padding: 5px;
+      box-shadow: 2px 2px #555;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -61,11 +78,19 @@
     <img id="item" src="./item.png" />
     <img id="alert" src="./alert.png" onclick="triggerEvent()" />
   </div>
+  <div id="ui-buttons">
+    <button id="event-button">❗</button>
+    <button id="battle-button">⚔️</button>
+    <button id="item-button">🎒</button>
+  </div>
   <script>
     const alertImg = document.getElementById("alert");
     const monster = document.getElementById("monster");
     const treasure = document.getElementById("treasure");
     const item = document.getElementById("item");
+    const bunny = document.getElementById("bunny");
+    const frames = ["./bunny_walk_1.png", "./bunny_walk_2.png"];
+    let frame = 0;
 
     function triggerEvent() {
       alertImg.style.display = "none";
@@ -101,15 +126,16 @@
       }, Math.random() * 5000 + 3000);
     }
 
-    scheduleNextEvent();
-
-    const bunny = document.getElementById("bunny");
-    const frames = ["./bunny_walk_1.png", "./bunny_walk_2.png"];
-    let frame = 0;
     setInterval(() => {
       frame = (frame + 1) % 2;
       bunny.src = frames[frame];
     }, 300);
+
+    scheduleNextEvent();
+
+    document.getElementById("event-button").onclick = () => triggerEvent();
+    document.getElementById("battle-button").onclick = () => alert("バトル開始！（仮）");
+    document.getElementById("item-button").onclick = () => alert("アイテム確認！（仮）");
   </script>
 </body>
 </html>
