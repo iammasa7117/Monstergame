@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>宝箱イベント</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #aadeaa, #cceeff);
+    }
+    #game {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: repeating-linear-gradient(to right, #cceeff 0 50px, #aadeaa 50px 100px);
+      animation: scrollBackground 10s linear infinite;
+    }
+    @keyframes scrollBackground {
+      0% { background-position-x: 0; }
+      100% { background-position-x: -1000px; }
+    }
+    #bunny {
+      position: absolute;
+      height: 20vh;
+      bottom: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #monster {
+      position: absolute;
+      width: 25vw;
+      bottom: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    #treasure {
+      position: absolute;
+      width: 25vw;
+      bottom: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      cursor: pointer;
+    }
+    #item {
+      position: absolute;
+      width: 15vw;
+      bottom: 55%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    #alert {
+      position: absolute;
+      width: 8vw;
+      bottom: 52%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 1s infinite;
+      cursor: pointer;
+      display: none;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <img id="bunny" src="bunny_walk_1.png" />
+    <img id="monster" src="monster.png" />
+    <img id="treasure" src="treasure.png" onclick="openTreasure()" />
+    <img id="item" src="item.png" />
+    <img id="alert" src="alert.png" onclick="triggerEvent()" />
+  </div>
+  <script>
+    const alertImg = document.getElementById("alert");
+    const monster = document.getElementById("monster");
+    const treasure = document.getElementById("treasure");
+    const item = document.getElementById("item");
+
+    function triggerEvent() {
+  alertImg.style.display = "none";
+  const isTreasure = Math.random() < 0.5;
+
+  if (isTreasure) {
+    treasure.style.display = "block";
+    monster.style.display = "none";
+  } else {
+    // フラッシュ演出 → バトル画面へ
+    triggerFlashEffect(() => {
+      alert("バトル画面に切り替わります！（仮）");
+    });
+  }
+} else {
+        monster.style.display = "block";
+        treasure.style.display = "none";
+        alert("敵が現れた！");
+        setTimeout(() => {
+          monster.style.display = "none";
+          scheduleNextEvent();
+        }, 3000);
+      }
+    }
+
+    function openTreasure() {
+      treasure.src = "treasure_open.png";
+      item.style.display = "block";
+      setTimeout(() => {
+        treasure.style.display = "none";
+        item.style.display = "none";
+        treasure.src = "treasure.png";
+        scheduleNextEvent();
+      }, 3000);
+    }
+
+    function scheduleNextEvent() {
+      const delay = Math.floor(Math.random() * 5000) + 3000;
+      setTimeout(() => {
+        alertImg.style.display = "block";
+      }, delay);
+    }
+
+    scheduleNextEvent();
+
+    const bunny = document.getElementById("bunny");
+    const frames = ["bunny_walk_1.png", "bunny_walk_2.png"];
+    let frame = 0;
+    setInterval(() => {
+      frame = (frame + 1) % 2;
+      bunny.src = frames[frame];
+    }, 300);
+  </script>
+
+<script>
+function startMonsterFlash(callback) {
+  let flashes = ['flash1.png', 'flash2.png'];
+  let index = 0;
+  let count = 0;
+  let flashInterval = setInterval(() => {
+    document.body.style.backgroundImage = `url(${flashes[index]})`;
+    document.body.style.backgroundSize = 'cover';
+    index = 1 - index;
+    count++;
+    if (count >= 4) {
+      clearInterval(flashInterval);
+      callback();
+    }
+  }, 400);
+}
+
+// テスト用：自動でフラッシュ開始（本番では ! ボタンから呼び出し）
+window.addEventListener("DOMContentLoaded", () => {
+  startMonsterFlash(() => {
+    // 背景リセットまたは次の画面へ移行
+    document.body.style.backgroundImage = '';
+  });
+});
+</script>
+
+<script>
+  let flashIndex = 0;
+  let flashTimer = null;
+
+  function triggerFlashEffect(callback) {
+    const flashImages = ['flash1.png', 'flash2.png'];
+    const flashOverlay = document.createElement('img');
+    flashOverlay.style.position = 'absolute';
+    flashOverlay.style.top = 0;
+    flashOverlay.style.left = 0;
+    flashOverlay.style.width = '100%';
+    flashOverlay.style.height = '100%';
+    flashOverlay.style.zIndex = 9999;
+    document.body.appendChild(flashOverlay);
+
+    let count = 0;
+    flashTimer = setInterval(() => {
+      flashOverlay.src = flashImages[flashIndex % 2];
+      flashIndex++;
+      count++;
+      if (count >= 6) {
+        clearInterval(flashTimer);
+        document.body.removeChild(flashOverlay);
+        if (callback) callback();
+      }
+    }, 400);
+  }
+
+  function handleEventTrigger() {
+    const isEnemy = Math.random() < 0.5;
+    if (isEnemy) {
+      triggerFlashEffect(() => {
+        alert("バトル画面に切り替わります！（仮）");
+        // ここでバトル画面に遷移させる処理を入れる予定
+      });
+    } else {
+      document.getElementById('treasure').style.display = 'block';
+    }
+  }
+</script>
+
+</body>
+
+</html>
