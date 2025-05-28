@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Monster Game v19</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monster Game v20</title>
   <style>
     body {
       margin: 0;
@@ -14,6 +14,18 @@
       position: relative;
       width: 100vw;
       height: 100vh;
+    }
+    #status {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      font-family: 'Courier New', monospace;
+      font-size: 3vw;
+      padding: 5px;
+      box-sizing: border-box;
     }
     #bunny, #monster, #treasure, #item, #alert {
       position: absolute;
@@ -71,6 +83,12 @@
   </style>
 </head>
 <body>
+  <div id="status">
+    名前: Bunny　Lv: <span id="level">1</span>　
+    HP: <span id="hp">100</span>/100　
+    攻撃力: <span id="attack">10</span>　
+    経験値: <span id="exp">0</span>/100
+  </div>
   <div id="game">
     <img id="bunny" src="./bunny_walk_1.png" />
     <img id="monster" src="./monster.png" />
