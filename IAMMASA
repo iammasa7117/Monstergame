@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Monster Game</title>
+  <style>
+    body { margin: 0; background: black; }
+    canvas { display: block; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <h1 style="color: white; text-align: center;">Monster Game is loading...</h1>
+</body>
+</html>
