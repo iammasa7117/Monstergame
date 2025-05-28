@@ -1,36 +1,27 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monster Game v22</title>
+  <meta charset="UTF-8">
+  <title>Stage Select Demo</title>
   <style>
     body {
       margin: 0;
       overflow: hidden;
+      background: black;
     }
     canvas {
       display: block;
-      background: url('forest.png') no-repeat center center;
-      background-size: cover;
     }
     .stage-buttons {
       position: absolute;
       top: 10px;
       left: 10px;
-      display: flex;
-      gap: 10px;
       z-index: 10;
     }
     .stage-buttons button {
-      padding: 5px 10px;
+      margin-right: 10px;
+      padding: 10px;
       font-size: 16px;
-      border-radius: 8px;
-      border: none;
-      background-color: #4caf50;
-      color: white;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -41,33 +32,7 @@
     <button onclick="changeStage('cave')">洞窟</button>
     <button onclick="changeStage('snowfield')">雪原</button>
   </div>
-  <canvas id="gameCanvas" width="360" height="640"></canvas>
-  <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-
-    let background = new Image();
-    background.src = 'forest.png';
-
-    function changeStage(stage) {
-      const stageMap = {
-        'forest': 'forest.png',
-        'wasteland': 'wasteland.png',
-        'cave': 'cave.png',
-        'snowfield': 'snowfield.png'
-      };
-      background.src = stageMap[stage];
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-      requestAnimationFrame(draw);
-    }
-
-    background.onload = function() {
-      draw();
-    };
-  </script>
+  <canvas id="gameCanvas" width="720" height="1280"></canvas>
+  <script src="main.js"></script>
 </body>
 </html>
