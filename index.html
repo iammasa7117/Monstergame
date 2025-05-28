@@ -1,58 +1,72 @@
 
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monster Game v21</title>
+  <title>Monster Game v22</title>
   <style>
     body {
       margin: 0;
-      background: black;
       overflow: hidden;
-    }
-    #status {
-      font-family: 'Courier New', monospace;
-      background: #111;
-      color: white;
-      padding: 10px;
-      border: 2px dotted white;
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 10;
     }
     canvas {
       display: block;
-      margin: 0 auto;
+      background: url('forest.png') no-repeat center center;
+      background-size: cover;
+    }
+    .stage-buttons {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    .stage-buttons button {
+      padding: 5px 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div id="status">
-    名前: Bunny　Lv: 1<br>
-    HP: 100 / 100　攻撃力: 10<br>
-    経験値: 0 / 100
+  <div class="stage-buttons">
+    <button onclick="changeStage('forest')">森</button>
+    <button onclick="changeStage('wasteland')">荒野</button>
+    <button onclick="changeStage('cave')">洞窟</button>
+    <button onclick="changeStage('snowfield')">雪原</button>
   </div>
   <canvas id="gameCanvas" width="360" height="640"></canvas>
   <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
 
-    const bunnyImg = new Image();
-    bunnyImg.src = "bunny_walk_1.png";
+    let background = new Image();
+    background.src = 'forest.png';
 
-    let bunnyX = 150;
-    let bunnyY = 300;
-    let frame = 0;
+    function changeStage(stage) {
+      const stageMap = {
+        'forest': 'forest.png',
+        'wasteland': 'wasteland.png',
+        'cave': 'cave.png',
+        'snowfield': 'snowfield.png'
+      };
+      background.src = stageMap[stage];
+    }
 
-    bunnyImg.onload = () => {
-      setInterval(() => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(bunnyImg, bunnyX, bunnyY);
-        bunnyX += 1;
-        if (bunnyX > canvas.width) bunnyX = -32;
-      }, 100);
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+      requestAnimationFrame(draw);
+    }
+
+    background.onload = function() {
+      draw();
     };
   </script>
 </body>
