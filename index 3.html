@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monster Game</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      font-family: monospace;
+      overflow: hidden;
+    }
+
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      text-align: center;
+    }
+
+    #bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #bunny {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      animation: walk 0.8s steps(2) infinite;
+    }
+
+    @keyframes walk {
+      from { content: url("bunny_walk_1.png"); }
+      to { content: url("bunny_walk_2.png"); }
+    }
+
+    #menu, #stage-options {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    #stage-options {
+      display: none;
+    }
+
+    button {
+      padding: 6px 12px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #status {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: limegreen;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <img id="bg" src="bg_forest.png.png" />
+    <img id="bunny" src="bunny_walk_1.png" />
+
+    <div id="menu">
+      <button onclick="toggleStages()">ステージ</button>
+      <div id="stage-options">
+        <button onclick="changeStage('bg_forest.png.png')">森</button>
+        <button onclick="changeStage('bg_wasteland.png.png')">荒野</button>
+        <button onclick="changeStage('bg_cave.png.png')">洞窟</button>
+        <button onclick="changeStage('bg_snowfield.png.png')">雪原</button>
+      </div>
+    </div>
+
+    <div id="status">HP: 100 ｜ スタミナ: 50 ｜ 捕食履歴: 2体 ｜ オーラ: 中</div>
+  </div>
+
+  <script>
+    function changeStage(image) {
+      document.getElementById("bg").src = image;
+      document.getElementById("stage-options").style.display = "none";
+    }
+
+    function toggleStages() {
+      const options = document.getElementById("stage-options");
+      options.style.display = options.style.display === "none" ? "flex" : "none";
+    }
+  </script>
+</body>
+</html>
