@@ -1,95 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>Monster Game</title>
-    <style>
-        body {
-            margin: 0;
-            background-color: black;
-            overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        canvas {
-            display: block;
-            margin: 0 auto;
-            background-size: cover;
-        }
-        #stageButton, .stageOption {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px;
-            font-size: 16px;
-            background: white;
-            border: none;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        .stageOption {
-            display: none;
-        }
-        #status {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            color: lime;
-            font-size: 14px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Monster Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="stageButton">ステージ</button>
-    <div id="stageOptions">
-        <button class="stageOption" data-bg="bg_forest.png">森</button><br>
-        <button class="stageOption" data-bg="bg_wasteland.png">荒野</button><br>
-        <button class="stageOption" data-bg="bg_cave.png">洞窟</button><br>
-        <button class="stageOption" data-bg="bg_snowfield.png">雪原</button>
+  <button id="stageBtn">ステージ</button>
+  <div id="stageMenu" class="hidden">
+    <button onclick="changeStage('forest')">森</button>
+    <button onclick="changeStage('wasteland')">荒野</button>
+    <button onclick="changeStage('cave')">洞窟</button>
+    <button onclick="changeStage('snowfield')">雪原</button>
+  </div>
+  <div id="gameContainer">
+    <img id="background" src="bg_forest.png" alt="背景">
+    <img id="bunny" src="bunny_walk_1.png" alt="バニー">
+    <div id="status">
+      HP: 100 ｜ スタミナ: 50 ｜ 攻撃力: 20 ｜ 防御力: 15 ｜ 捕食履歴: 2体 ｜ オーラ: 弱
     </div>
-    <canvas id="gameCanvas" width="360" height="640"></canvas>
-    <div id="status">HP: 100｜スタミナ: 50｜攻撃力: 20｜防御力: 15｜捕食歴: 2体｜オーラ: 弱</div>
-
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-
-        const bunnyImages = [new Image(), new Image()];
-        bunnyImages[0].src = "bunny_walk_1.png";
-        bunnyImages[1].src = "bunny_walk_2.png";
-
-        let currentFrame = 0;
-        let bunnyX = 150;
-        let bunnyY = 420;
-        let backgroundImage = new Image();
-        backgroundImage.src = "bg_forest.png";
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-            ctx.drawImage(bunnyImages[currentFrame], bunnyX, bunnyY, 60, 60);
-        }
-
-        setInterval(() => {
-            currentFrame = (currentFrame + 1) % bunnyImages.length;
-            draw();
-        }, 300);
-
-        const stageButton = document.getElementById("stageButton");
-        const stageOptions = document.querySelectorAll(".stageOption");
-
-        stageButton.addEventListener("click", () => {
-            stageOptions.forEach(btn => btn.style.display = btn.style.display === "block" ? "none" : "block");
-        });
-
-        stageOptions.forEach(btn => {
-            btn.addEventListener("click", () => {
-                backgroundImage.src = btn.getAttribute("data-bg");
-                stageOptions.forEach(b => b.style.display = "none");
-            });
-        });
-
-    </script>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
