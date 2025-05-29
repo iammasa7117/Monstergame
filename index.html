@@ -1,112 +1,95 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monster Game</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: black;
-    }
-    canvas {
-      display: block;
-      margin: 0 auto;
-      background-color: black;
-    }
-    #stageButton, .stage-option {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      padding: 10px 15px;
-      background-color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 10;
-      margin-bottom: 10px;
-    }
-    .stage-option {
-      display: none;
-      margin-top: 50px;
-    }
-    #status {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #00FF00;
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 5px 10px;
-      border-radius: 8px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Monster Game</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-size: cover;
+        }
+        #stageButton, .stageOption {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            font-size: 16px;
+            background: white;
+            border: none;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .stageOption {
+            display: none;
+        }
+        #status {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: lime;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-  <button id="stageButton">ステージ</button>
-  <div id="stageOptions">
-    <button class="stage-option" data-bg="bg_forest.png">森</button>
-    <button class="stage-option" data-bg="bg_wasteland.png">荒野</button>
-    <button class="stage-option" data-bg="bg_cave.png">洞窟</button>
-    <button class="stage-option" data-bg="bg_snowfield.png">雪原</button>
-  </div>
-  <div id="status">HP: 100 | スタミナ: 50 | 捕食履歴: 2体</div>
-  <canvas id="gameCanvas" width="400" height="700"></canvas>
+    <button id="stageButton">ステージ</button>
+    <div id="stageOptions">
+        <button class="stageOption" data-bg="bg_forest.png">森</button><br>
+        <button class="stageOption" data-bg="bg_wasteland.png">荒野</button><br>
+        <button class="stageOption" data-bg="bg_cave.png">洞窟</button><br>
+        <button class="stageOption" data-bg="bg_snowfield.png">雪原</button>
+    </div>
+    <canvas id="gameCanvas" width="360" height="640"></canvas>
+    <div id="status">HP: 100｜スタミナ: 50｜攻撃力: 20｜防御力: 15｜捕食歴: 2体｜オーラ: 弱</div>
 
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    const stageButton = document.getElementById("stageButton");
-    const stageOptions = document.querySelectorAll(".stage-option");
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
 
-    let bgImage = new Image();
-    bgImage.src = "bg_forest.png";
+        const bunnyImages = [new Image(), new Image()];
+        bunnyImages[0].src = "bunny_walk_1.png";
+        bunnyImages[1].src = "bunny_walk_2.png";
 
-    let bunnyFrames = ["bunny_walk_1.png", "bunny_walk_2.png"];
-    let bunnyImages = [];
-    let currentFrame = 0;
-    let frameCount = 0;
+        let currentFrame = 0;
+        let bunnyX = 150;
+        let bunnyY = 420;
+        let backgroundImage = new Image();
+        backgroundImage.src = "bg_forest.png";
 
-    bunnyFrames.forEach(src => {
-      const img = new Image();
-      img.src = src;
-      bunnyImages.push(img);
-    });
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+            ctx.drawImage(bunnyImages[currentFrame], bunnyX, bunnyY, 60, 60);
+        }
 
-    let bunnyX = 100;
-    let bunnyY = 500;
+        setInterval(() => {
+            currentFrame = (currentFrame + 1) % bunnyImages.length;
+            draw();
+        }, 300);
 
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
-      ctx.drawImage(bunnyImages[currentFrame], bunnyX, bunnyY, 128, 128);
+        const stageButton = document.getElementById("stageButton");
+        const stageOptions = document.querySelectorAll(".stageOption");
 
-      frameCount++;
-      if (frameCount % 30 === 0) {
-        currentFrame = (currentFrame + 1) % bunnyImages.length;
-      }
+        stageButton.addEventListener("click", () => {
+            stageOptions.forEach(btn => btn.style.display = btn.style.display === "block" ? "none" : "block");
+        });
 
-      requestAnimationFrame(draw);
-    }
+        stageOptions.forEach(btn => {
+            btn.addEventListener("click", () => {
+                backgroundImage.src = btn.getAttribute("data-bg");
+                stageOptions.forEach(b => b.style.display = "none");
+            });
+        });
 
-    draw();
-
-    stageButton.onclick = () => {
-      stageOptions.forEach(opt => {
-        opt.style.display = opt.style.display === "block" ? "none" : "block";
-      });
-    };
-
-    stageOptions.forEach(option => {
-      option.onclick = () => {
-        bgImage.src = option.getAttribute("data-bg");
-        stageOptions.forEach(opt => opt.style.display = "none");
-      };
-    });
-  </script>
+    </script>
 </body>
 </html>
