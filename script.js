@@ -1,46 +1,60 @@
 
+let hunger = 5;
+let deathCountdown = 0;
 let bunny = document.getElementById("bunny");
-let stageMenu = document.getElementById("stageMenu");
-let hungerIcons = [
-    document.getElementById("meat1"),
-    document.getElementById("meat2"),
-    document.getElementById("meat3"),
-    document.getElementById("meat4"),
-    document.getElementById("meat5")
-];
-let background = document.getElementById("background");
+let hungerBar = document.getElementById("hungerBar");
+let statusText = document.getElementById("statusText");
+let bunnyState = true;
 
-let stageButton = document.getElementById("stageButton");
-stageButton.onclick = () => {
-    stageMenu.classList.toggle("hidden");
-};
+function updateStatus() {
+    const aura = hunger >= 4 ? "強" : hunger >= 2 ? "普通" : "弱";
+    statusText.innerHTML =
+        `HP: 100<br>スタミナ: 100<br>攻撃力: 50<br>防御力: 30<br>捕食歴: 3<br>オーラ: ${aura}`;
+}
+
+function updateHungerBar() {
+    hungerBar.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+        const icon = document.createElement("img");
+        icon.src = i < hunger ? "hungry_full.png" : "hungry_empty.png";
+        icon.style.width = "30px";
+        icon.style.marginLeft = "2px";
+        hungerBar.appendChild(icon);
+    }
+}
+
+function hungerTick() {
+    if (hunger > 0) {
+        hunger--;
+        updateHungerBar();
+        updateStatus();
+        if (hunger === 0) {
+            deathCountdown = 10;
+        }
+    } else if (deathCountdown > 0) {
+        deathCountdown--;
+        if (deathCountdown === 0) {
+            alert("モンスターは死にました");
+        }
+    }
+}
 
 function changeStage(stage) {
-    background.src = `bg_${stage}.png`;
-    stageMenu.classList.add("hidden");
+    document.getElementById("background").src = `bg_${stage}.png`;
+    document.getElementById("stageMenu").style.display = "none";
 }
 
-// Hunger system
-let hungerLevel = parseInt(localStorage.getItem("hungerLevel")) || 5;
-let lastHungerCheck = parseInt(localStorage.getItem("lastHungerCheck")) || Date.now();
-updateHungerDisplay();
+document.getElementById("stageButton").onclick = () => {
+    const menu = document.getElementById("stageMenu");
+    menu.style.display = menu.style.display === "none" ? "block" : "none";
+};
 
-function updateHunger() {
-    const now = Date.now();
-    const minutesPassed = Math.floor((now - lastHungerCheck) / 60000);
-    if (minutesPassed > 0) {
-        hungerLevel = Math.max(0, hungerLevel - minutesPassed);
-        lastHungerCheck = now;
-        localStorage.setItem("hungerLevel", hungerLevel);
-        localStorage.setItem("lastHungerCheck", lastHungerCheck);
-        updateHungerDisplay();
-    }
-}
+setInterval(() => {
+    bunny.src = bunnyState ? "bunny_walk_1.png" : "bunny_walk_2.png";
+    bunnyState = !bunnyState;
+}, 500);
 
-function updateHungerDisplay() {
-    for (let i = 0; i < 5; i++) {
-        hungerIcons[i].src = i < hungerLevel ? "hungry_full.png" : "hungry_empty.png";
-    }
-}
+setInterval(hungerTick, 60000); // 毎分1つ減る（テスト時は60000 → 10000にしても良い）
 
-setInterval(updateHunger, 60000);
+updateHungerBar();
+updateStatus();

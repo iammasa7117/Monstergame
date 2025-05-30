@@ -3,37 +3,23 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Monster Game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バニー育成ゲーム</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <button id="stageButton">ステージ</button>
-        <div id="stageMenu" class="hidden">
-            <button onclick="changeStage('forest')">森</button>
-            <button onclick="changeStage('wasteland')">荒野</button>
-            <button onclick="changeStage('cave')">洞窟</button>
-            <button onclick="changeStage('snowfield')">雪原</button>
-        </div>
-        <div class="game-screen">
-            <img id="background" src="bg_forest.png" class="background" />
-            <img id="bunny" src="bunny_walk_1.png" class="bunny" />
-            <div class="hunger" id="hunger">
-                <img src="hungry_full.png" class="meat" id="meat1">
-                <img src="hungry_full.png" class="meat" id="meat2">
-                <img src="hungry_full.png" class="meat" id="meat3">
-                <img src="hungry_full.png" class="meat" id="meat4">
-                <img src="hungry_full.png" class="meat" id="meat5">
-            </div>
-        </div>
-        <div id="status" class="status">
-            <p>HP: 100</p>
-            <p>スタミナ: 100</p>
-            <p>攻撃力: 50</p>
-            <p>防御力: 30</p>
-            <p>捕食歴: 3</p>
-            <p>オーラ: 強</p>
+    <button id="stageButton">ステージ</button>
+    <div id="stageMenu" style="display: none;">
+        <button onclick="changeStage('forest')">森</button>
+        <button onclick="changeStage('wasteland')">荒野</button>
+        <button onclick="changeStage('cave')">洞窟</button>
+        <button onclick="changeStage('snowfield')">雪原</button>
+    </div>
+    <div id="gameScreen">
+        <img id="background" src="bg_forest.png">
+        <img id="bunny" src="bunny_walk_1.png">
+        <div id="hungerBar"></div>
+        <div id="status">
+            <p id="statusText"></p>
         </div>
     </div>
     <script src="script.js"></script>
