@@ -1,53 +1,59 @@
 
 body {
     margin: 0;
-    background-color: black;
-    font-family: 'Courier New', Courier, monospace;
-    color: limegreen;
+    background: black;
     overflow: hidden;
 }
-.background {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-}
-.bunny {
-    width: 150px;
-    position: absolute;
-    left: 50%;
-    bottom: 100px;
-    transform: translateX(-50%);
-    z-index: 1;
-}
-#statusBar {
+#stage-select-container {
     position: fixed;
-    bottom: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    color: limegreen;
-}
-.hunger-bar {
-    position: absolute;
     top: 10px;
-    right: 10px;
-    z-index: 2;
-}
-.meat-icon {
-    width: 30px;
-    height: 30px;
-}
-#stageMenu {
-    position: absolute;
-    top: 40px;
     left: 10px;
-    display: flex;
-    flex-direction: column;
+    z-index: 10;
+}
+#stage-options {
+    margin-top: 5px;
 }
 .hidden {
     display: none;
+}
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+#bunny {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+}
+#hunger-gauge {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 4px;
+}
+#hunger-gauge img {
+    width: 30px;
+}
+#status {
+    position: fixed;
+    bottom: 5px;
+    width: 100%;
+    text-align: center;
+    color: limegreen;
+    font-family: monospace;
+    font-size: 0.9rem;
 }

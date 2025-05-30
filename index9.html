@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Monster Game</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="stage-select-container">
+        <button id="stage-button">ステージ</button>
+        <div id="stage-options" class="hidden">
+            <button onclick="changeStage('forest')">森</button>
+            <button onclick="changeStage('wasteland')">荒野</button>
+            <button onclick="changeStage('cave')">洞窟</button>
+            <button onclick="changeStage('snowfield')">雪原</button>
+        </div>
+    </div>
+    <div id="game-container">
+        <div id="background"></div>
+        <img id="bunny" src="bunny_walk_1.png" alt="バニー" />
+        <div id="hunger-gauge"></div>
+        <div id="status">HP: 100｜スタミナ: 50｜攻撃力: 20｜防御力: 15｜捕食履歴: 2体｜オーラ: 弱</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
