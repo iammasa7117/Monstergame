@@ -2,27 +2,34 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Monster Game</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>バニー育成ゲーム</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="stage-select-container">
-        <button id="stage-button">ステージ</button>
-        <div id="stage-options" class="hidden">
-            <button onclick="changeStage('forest')">森</button>
-            <button onclick="changeStage('wasteland')">荒野</button>
-            <button onclick="changeStage('cave')">洞窟</button>
-            <button onclick="changeStage('snowfield')">雪原</button>
-        </div>
+  <div id="stage-container">
+    <img id="background" src="bg_forest.png" alt="Background">
+    <img id="monster" src="bunny_walk_1.png" alt="Monster">
+    <div id="hunger-bar"></div>
+    <button id="stage-button">ステージ</button>
+    <div id="stage-options" style="display:none;">
+      <button onclick="changeStage('bg_forest.png')">森</button>
+      <button onclick="changeStage('bg_wasteland.png')">荒野</button>
+      <button onclick="changeStage('bg_cave.png')">洞窟</button>
+      <button onclick="changeStage('bg_snowfield.png')">雪原</button>
     </div>
-    <div id="game-container">
-        <div id="background"></div>
-        <img id="bunny" src="bunny_walk_1.png" alt="バニー" />
-        <div id="hunger-gauge"></div>
-        <div id="status">HP: 100｜スタミナ: 50｜攻撃力: 20｜防御力: 15｜捕食履歴: 2体｜オーラ: 弱</div>
-    </div>
-    <script src="script.js"></script>
+  </div>
+
+  <div id="status-panel">
+    <p>HP: 100</p>
+    <p>スタミナ: 100</p>
+    <p>攻撃力: 50</p>
+    <p>防御力: 30</p>
+    <p>捕食歴: 3</p>
+    <p>オーラ: 強</p>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

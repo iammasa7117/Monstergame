@@ -1,59 +1,56 @@
 
 body {
-    margin: 0;
-    background: black;
-    overflow: hidden;
+  margin: 0;
+  font-family: sans-serif;
+  background-color: black;
+  color: white;
+  overflow: hidden;
 }
-#stage-select-container {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 10;
-}
-#stage-options {
-    margin-top: 5px;
-}
-.hidden {
-    display: none;
-}
-#game-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+#stage-container {
+  position: relative;
+  width: 100vw;
+  height: 70vh;
 }
 #background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
 }
-#bunny {
-    position: absolute;
-    bottom: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
+#monster {
+  position: absolute;
+  width: 100px;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }
-#hunger-gauge {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 4px;
+#hunger-bar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 5px;
 }
-#hunger-gauge img {
-    width: 30px;
+#hunger-bar img {
+  width: 24px;
+  height: 24px;
 }
-#status {
-    position: fixed;
-    bottom: 5px;
-    width: 100%;
-    text-align: center;
-    color: limegreen;
-    font-family: monospace;
-    font-size: 0.9rem;
+#stage-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+#stage-options {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+#status-panel {
+  position: fixed;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  width: 100%;
+  padding: 10px;
 }
