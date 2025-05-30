@@ -1,54 +1,60 @@
 
-const INTERVAL_MS = 1000 * 60;
+let hunger = 5;
+let deathCountdown = 0;
+let bunny = document.getElementById("bunny");
+let hungerBar = document.getElementById("hungerBar");
+let statusText = document.getElementById("statusText");
+let bunnyState = true;
 
-let hunger = parseInt(localStorage.getItem("hunger")) || 5;
-let lastUpdated = parseInt(localStorage.getItem("lastUpdated")) || Date.now();
-
-function updateHungerByTime() {
-  const now = Date.now();
-  const unitsPassed = Math.floor((now - lastUpdated) / INTERVAL_MS);
-
-  if (unitsPassed > 0) {
-    hunger = Math.max(0, hunger - unitsPassed);
-    lastUpdated = now;
-    localStorage.setItem("lastUpdated", lastUpdated.toString());
-    localStorage.setItem("hunger", hunger.toString());
-  }
+function updateStatus() {
+    const aura = hunger >= 4 ? "強" : hunger >= 2 ? "普通" : "弱";
+    statusText.innerHTML =
+        `HP: 100<br>スタミナ: 100<br>攻撃力: 50<br>防御力: 30<br>捕食歴: 3<br>オーラ: ${aura}`;
 }
 
-function renderHungerBar() {
-  const bar = document.getElementById("hunger-bar");
-  bar.innerHTML = "";
-  for (let i = 0; i < 5; i++) {
-    const img = document.createElement("img");
-    img.src = i < hunger ? "hungry_full.png" : "hungry_empty.png";
-    bar.appendChild(img);
-  }
-}
-
-function checkDeathCondition() {
-  if (hunger === 0) {
-    const now = Date.now();
-    const minutesSinceZero = Math.floor((now - lastUpdated) / INTERVAL_MS);
-    if (minutesSinceZero >= 10) {
-      alert("モンスターが飢えて死にました...（テストモード）");
-      hunger = 5;
-      lastUpdated = now;
-      localStorage.setItem("lastUpdated", lastUpdated.toString());
-      localStorage.setItem("hunger", hunger.toString());
+function updateHungerBar() {
+    hungerBar.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+        const icon = document.createElement("img");
+        icon.src = i < hunger ? "hungry_full.png" : "hungry_empty.png";
+        icon.style.width = "30px";
+        icon.style.marginLeft = "2px";
+        hungerBar.appendChild(icon);
     }
-  }
 }
 
-function changeStage(imageName) {
-  document.getElementById("background").src = imageName;
+function hungerTick() {
+    if (hunger > 0) {
+        hunger--;
+        updateHungerBar();
+        updateStatus();
+        if (hunger === 0) {
+            deathCountdown = 10;
+        }
+    } else if (deathCountdown > 0) {
+        deathCountdown--;
+        if (deathCountdown === 0) {
+            alert("モンスターは死にました");
+        }
+    }
 }
 
-document.getElementById("stage-button").addEventListener("click", () => {
-  const options = document.getElementById("stage-options");
-  options.style.display = options.style.display === "none" ? "block" : "none";
-});
+function changeStage(stage) {
+    document.getElementById("background").src = `bg_${stage}.png`;
+    document.getElementById("stageMenu").style.display = "none";
+}
 
-updateHungerByTime();
-renderHungerBar();
-checkDeathCondition();
+document.getElementById("stageButton").onclick = () => {
+    const menu = document.getElementById("stageMenu");
+    menu.style.display = menu.style.display === "none" ? "block" : "none";
+};
+
+setInterval(() => {
+    bunny.src = bunnyState ? "bunny_walk_1.png" : "bunny_walk_2.png";
+    bunnyState = !bunnyState;
+}, 500);
+
+setInterval(hungerTick, 60000); // 毎分1つ減る（テスト時は60000 → 10000にしても良い）
+
+updateHungerBar();
+updateStatus();
