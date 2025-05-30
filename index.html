@@ -1,28 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monster Game</title>
+  <title>Monster Game v23</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="controls">
-    <button id="stageBtn">ステージ</button>
-    <div id="stageOptions" style="display: none;">
+  <!-- ステージ選択 -->
+  <div id="stage-selector">
+    <button id="stage-button">ステージ</button>
+    <div id="stage-options" style="display: none;">
       <button onclick="changeStage('forest')">森</button>
       <button onclick="changeStage('wasteland')">荒野</button>
       <button onclick="changeStage('cave')">洞窟</button>
       <button onclick="changeStage('snowfield')">雪原</button>
     </div>
   </div>
-  <div id="gameContainer">
-    <img id="background" src="bg_forest.png" />
-    <img id="bunny" src="bunny_walk_1.png" />
-    <div id="hungerContainer"></div>
-    <div id="stats">HP: 100 | スタミナ: 50 | 攻撃力: 20 | 防御力: 15 | 捕食履歴: 2体 | オーラ: 弱</div>
+
+  <!-- 背景とモンスター表示 -->
+  <div id="game-container">
+    <img id="background" src="bg_forest.png" alt="背景" />
+    <img id="bunny" src="bunny_walk_1.png" alt="バニー" />
+    <div id="hunger-bar"></div>
   </div>
+
+  <!-- ステータス表示 -->
+  <div id="status">
+    HP: 100 ｜ スタミナ: 50 ｜ 攻撃力: 20 ｜ 防御力: 15 ｜ 捕食歴: 2体 ｜ オーラ: 弱
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
