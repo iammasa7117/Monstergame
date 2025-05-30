@@ -1,35 +1,63 @@
+
 body {
   margin: 0;
-  background-color: black;
-  color: limegreen;
+  background: black;
   font-family: monospace;
+  color: green;
   text-align: center;
 }
+
+#controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
 #gameContainer {
   position: relative;
-  width: 100%;
-  max-width: 420px;
-  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
+
 #background {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
+
 #bunny {
   position: absolute;
-  bottom: 80px;
+  width: 20%;
+  max-width: 150px;
+  bottom: 20%;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
+  z-index: 1;
 }
-#status {
+
+#hungerContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 5px;
+  z-index: 2;
+}
+
+#hungerContainer img {
+  width: 30px;
+  height: 30px;
+}
+
+#stats {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
   font-size: 0.9rem;
-  margin-top: 10px;
-}
-button {
-  margin: 5px;
-  padding: 8px;
-}
-.hidden {
-  display: none;
+  z-index: 2;
 }

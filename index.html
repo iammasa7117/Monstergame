@@ -1,138 +1,28 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monster Game v24</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: #000;
-    }
-
-    canvas {
-      display: block;
-    }
-
-    #stageButtons {
-      position: absolute;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 2;
-    }
-
-    .stage-btn, #toggleStages {
-      font-size: 16px;
-      padding: 10px 20px;
-      border-radius: 12px;
-      border: none;
-      background-color: #444;
-      color: white;
-      cursor: pointer;
-    }
-
-    #toggleStages {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-    }
-
-    #statusDisplay {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      color: white;
-      font-family: monospace;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-      border-radius: 10px;
-      z-index: 2;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monster Game</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="toggleStages">ステージ</button>
-  <div id="stageButtons">
-    <button class="stage-btn" data-stage="bg_forest.png">森</button>
-    <button class="stage-btn" data-stage="bg_wasteland.png">荒野</button>
-    <button class="stage-btn" data-stage="bg_cave.png">洞窟</button>
-    <button class="stage-btn" data-stage="bg_snowfield.png">雪原</button>
+  <div id="controls">
+    <button id="stageBtn">ステージ</button>
+    <div id="stageOptions" style="display: none;">
+      <button onclick="changeStage('forest')">森</button>
+      <button onclick="changeStage('wasteland')">荒野</button>
+      <button onclick="changeStage('cave')">洞窟</button>
+      <button onclick="changeStage('snowfield')">雪原</button>
+    </div>
   </div>
-  <div id="statusDisplay">
-    HP: 100<br>
-    スタミナ: 80<br>
-    攻撃力: 20<br>
-    防御力: 15<br>
-    捕食歴: 2<br>
-    オーラ: 🔥🔥
+  <div id="gameContainer">
+    <img id="background" src="bg_forest.png" />
+    <img id="bunny" src="bunny_walk_1.png" />
+    <div id="hungerContainer"></div>
+    <div id="stats">HP: 100 | スタミナ: 50 | 攻撃力: 20 | 防御力: 15 | 捕食履歴: 2体 | オーラ: 弱</div>
   </div>
-  <canvas id="gameCanvas"></canvas>
-
-  <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    let stage = 'bg_forest.png';
-    let monsterX = 0;
-    let monsterSpeed = 1;
-    let frame = 0;
-
-    const monsterWalk1 = new Image();
-    monsterWalk1.src = 'bunny_walk_1.png';
-    const monsterWalk2 = new Image();
-    monsterWalk2.src = 'bunny_walk_2.png';
-
-    const background = new Image();
-    background.src = stage;
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function update() {
-      monsterX += monsterSpeed;
-      if (monsterX > canvas.width) monsterX = -100;
-      frame++;
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-      const monsterImage = (Math.floor(frame / 15) % 2 === 0) ? monsterWalk1 : monsterWalk2;
-      ctx.drawImage(monsterImage, monsterX, canvas.height - 200, 150, 150);
-    }
-
-    function gameLoop() {
-      update();
-      draw();
-      requestAnimationFrame(gameLoop);
-    }
-
-    gameLoop();
-
-    document.querySelectorAll('.stage-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        stage = btn.getAttribute('data-stage');
-        background.src = stage;
-        document.getElementById('stageButtons').style.display = 'none';
-      });
-    });
-
-    document.getElementById('toggleStages').addEventListener('click', () => {
-      const panel = document.getElementById('stageButtons');
-      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
