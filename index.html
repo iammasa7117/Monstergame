@@ -8,21 +8,37 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="stage-select-container">
-        <button id="stage-button">ステージ</button>
-        <div id="stage-options" class="hidden">
+    <div class="stage-container">
+        <button id="stageBtn">ステージ</button>
+        <div id="stageMenu" class="hidden">
             <button onclick="changeStage('forest')">森</button>
             <button onclick="changeStage('wasteland')">荒野</button>
             <button onclick="changeStage('cave')">洞窟</button>
             <button onclick="changeStage('snowfield')">雪原</button>
         </div>
     </div>
-    <div id="game-container">
-        <div id="background"></div>
-        <img id="bunny" src="bunny_walk_1.png" alt="バニー" />
-        <div id="hunger-gauge"></div>
-        <div id="status">HP: 100｜スタミナ: 50｜攻撃力: 20｜防御力: 15｜捕食履歴: 2体｜オーラ: 弱</div>
+
+    <div class="game-screen">
+        <img id="background" src="bg_forest.png" alt="background" class="background"/>
+        <img id="bunny" src="bunny_walk_1.png" alt="bunny" class="bunny"/>
+        <div id="hungerContainer" class="hunger-bar">
+            <img id="meat1" src="hungry_full.png" class="meat-icon"/>
+            <img id="meat2" src="hungry_full.png" class="meat-icon"/>
+            <img id="meat3" src="hungry_full.png" class="meat-icon"/>
+            <img id="meat4" src="hungry_full.png" class="meat-icon"/>
+            <img id="meat5" src="hungry_full.png" class="meat-icon"/>
+        </div>
     </div>
+
+    <div id="statusBar">
+        <span id="hp">HP: 100</span> |
+        <span id="stamina">スタミナ: 50</span> |
+        <span id="attack">攻撃力: 20</span> |
+        <span id="defense">防御力: 15</span> |
+        <span id="feedHistory">捕食歴: 2体</span> |
+        <span id="aura">オーラ: 弱</span>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
